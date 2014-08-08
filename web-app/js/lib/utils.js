@@ -36,6 +36,7 @@ var UTILS = {
        var value=parseFloat (incoming);
         return value.toPrecision(3);
     },
+
     frequencyCharacterization: function (proportion, cutoffs){
         var retVal = "";
         if (proportion === 0) {

@@ -25,7 +25,7 @@
             <th>rare</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="continentalAncestryTable">
         <script>
             for (var i = 0 ; i < geneInfo.variationTable.length ; i++ )   {
                 console.log(' making rows')
