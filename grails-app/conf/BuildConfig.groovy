@@ -37,9 +37,9 @@ grails.project.dependency.resolution = {
         mavenLocal()
         grailsCentral()
         mavenCentral()
-
-        mavenRepo 'https://raw.github.com/fernandezpablo85/scribe-java/mvn-repo/'
-        mavenRepo "http://repo.desirableobjects.co.uk/"
+        mavenRepo "http://google-api-client-libraries.appspot.com/mavenrepo"
+//        mavenRepo 'https://raw.github.com/fernandezpablo85/scribe-java/mvn-repo/'
+//        mavenRepo "http://repo.desirableobjects.co.uk/"
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
@@ -48,6 +48,9 @@ grails.project.dependency.resolution = {
 
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
+        compile "com.google.api-client:google-api-client:1.16.0-rc"
+        compile 'com.google.http-client:google-http-client-jackson2:1.16.0-rc'
+        compile 'com.google.apis:google-api-services-oauth2:v2-rev48-1.16.0-rc'
         runtime 'mysql:mysql-connector-java:5.1.29'
         // runtime 'org.postgresql:postgresql:9.3-1101-jdbc41'
         test "org.grails:grails-datastore-test-support:1.0-grails-2.4"

@@ -15,7 +15,7 @@
 
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
     <g:external uri="/images/icons/dna-strands.ico"/>
-
+    <script src="https://apis.google.com/js/client:platform.js" async defer></script>
 
     <g:layoutHead/>
     <script>
@@ -27,6 +27,50 @@
         ga('create', 'UA-54286044-1', 'auto');
         ga('send', 'pageview');
 
+    </script>
+    <script>
+        function success (data){
+            console.log('data='+data+'.');
+        };
+        function myError (data){
+            console.log('data='+data+'.');
+        };
+        function signinCallback(authResult) {
+            if (authResult['status']['signed_in']) {
+                // Update the app to reflect a signed in user
+                // Hide the sign-in button now that the user is authorized, for example:
+                document.getElementById('signinButton').setAttribute('style', 'display: none');
+                 $.ajax({
+                     type: 'POST',
+                     url: "${createLink(controller:'googlePlus', action:'userLoginAjax')}",
+                     contentType: 'application/octet-stream; charset=utf-8',
+                     success: function(result) {
+                         // Handle or verify the server response if necessary.
+
+                         // Prints the list of people that the user has allowed the app to know
+                         // to the console.
+                         console.log(result);
+                         if (result['profile'] && result['people']){
+                             $('#results').html('Hello ' + result['profile']['displayName'] + '. You successfully made a server side call to people.get and people.list');
+                         } else {
+                             $('#results').html('Failed to make a server-side call. Check your configuration and console.');
+                         }
+                     },
+                     processData: false,
+                     data: authResult['code']
+                 });
+                $.ajax( {url:"https://www.googleapis.com/plus/v1/people/me?access_token=975413760331-d2nr5vq7sbbppjfog0cp9j4agesbeovt.apps.googleusercontent.com",
+                         data:null,
+                         success:success} );
+            } else {
+                // Update the app to reflect a signed out user
+                // Possible error values:
+                //   "user_signed_out" - User is signed-out
+                //   "access_denied" - User denied access to your app
+                //   "immediate_failed" - Could not automatically log in the user
+                console.log('Sign-in state: ' + authResult['error']);
+            }
+        }
     </script>
 </head>
 
@@ -140,6 +184,16 @@
 
     <div id="header-bottom">
         <div class="container">
+            <span id="signinButton">
+                <span
+                        class="g-signin"
+                        data-callback="signinCallback"
+                        data-clientid="975413760331-d2nr5vq7sbbppjfog0cp9j4agesbeovt.apps.googleusercontent.com"
+                        data-cookiepolicy="single_host_origin"
+                        data-requestvisibleactions="http://schema.org/AddAction"
+                        data-scope="https://www.googleapis.com/auth/plus.login">
+                </span>
+            </span>
             <sec:ifLoggedIn>
                 <div class="rightlinks">
                     <sec:ifAllGranted roles="ROLE_ADMIN">
